@@ -7,21 +7,35 @@ import LoginSharpIcon from '@mui/icons-material/LoginSharp';
 import SearchSharpIcon from '@mui/icons-material/SearchSharp';
 import { IconButton } from "@mui/material";
 import styles from "@/app/page.module.css";
-import { Key } from "react";
+
+interface Article {
+    title: string;
+    slug: string;
+    author?: { name?: string };
+    content: string;
+    createdAt: string;
+}
 
 export default async function HomePage() {
-
     const articles = await prisma.article.findMany({
-        where: {published: true},
+        where: { published: true },
         take: 20,
-        select: {title: true, author: {select: {name: true}}, slug: true, createdAt: true, content: true},
-        orderBy: {createdAt: "desc"},
+        select: {
+            title: true,
+            author: { select: { name: true } },
+            slug: true,
+            createdAt: true,
+            content: true
+        },
+        orderBy: { createdAt: "desc" },
     });
 
-    const serializedArticles = articles.map((article: { createdAt: { toISOString: () => any; }; }) => ({
+    const serializedArticles: Article[] = articles.map((article: Article) => ({
         ...article,
-        createdAt: article.createdAt.toISOString(),
+        slug: String(article.slug ?? "unknown-slug"),
+        createdAt: article.createdAt.toString(),
     }));
+
 
     return (
         <main className={styles.container}>
@@ -31,14 +45,14 @@ export default async function HomePage() {
                     aria-label="search"
                     href="/search"
                 >
-                    <SearchSharpIcon/>
+                    <SearchSharpIcon />
                 </IconButton>
                 <IconButton
                     color="primary"
                     aria-label="login"
                     href="/login"
                 >
-                    <LoginSharpIcon/>
+                    <LoginSharpIcon />
                 </IconButton>
             </div>
             <h1 className={styles.heading}>NextJS Times</h1>
@@ -46,7 +60,7 @@ export default async function HomePage() {
                 The latest articles from the NextJS Times
             </p>
             <ul className={styles.articleList}>
-                {serializedArticles.map((article: { slug: Key | null | undefined; title: string; author: { name: any; }; content: string; createdAt: string | number | Date; }) => (
+                {serializedArticles.map((article) => (
                     <li key={article.slug}>
                         <ArticleCard
                             title={article.title}
