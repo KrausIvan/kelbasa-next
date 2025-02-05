@@ -30,27 +30,26 @@ export async function POST(req: Request){
           data: { title, content, slug, published: published ?? false, author: { connect: { email: session.user.email } } },
         });
 
-        [...tags].forEach(async tag => {
-            if (!tag) return;
-            if (typeof tag !== "string") return;
-            
+        for (const tag of tags) {
+            if (!tag || typeof tag !== "string") continue;
+
             const res = await prisma.tag.findFirst({
                 where: { name: tag },
                 select: { tagId: true }
             });
 
-            if(!res) return;
-            const relationRes = await prisma.articleTag.create({
+            if (!res) continue;
+
+            await prisma.articleTag.create({
                 data: {
                     articleId: newArticle.articleId,
                     tagId: res.tagId
                 }
             });
 
-            console.log(relationRes);
-            console.log("Tag created");
-        });
-    
+            console.log("Tag created", res);
+        }
+
         return NextResponse.json(newArticle, { status: 201 });
       } catch (error) {
         return NextResponse.json({ error: "Chyba při ukládání článku" + error }, { status: 500 });
@@ -97,14 +96,15 @@ export async function PUT(req: Request) {
 
         const tags = await prisma.tag.findMany({ where: { name: { in: article.tags } }, select: { tagId: true } });
 
-        tags.forEach(async tag => {
+        for (const tag of tags) {
             await prisma.articleTag.create({
                 data: {
                     articleId,
                     tagId: tag.tagId
                 }
             });
-        });
+        }
+
 
         return NextResponse.json({ message: "Article updated successfully" });
 
@@ -128,7 +128,10 @@ export async function DELETE(req: Request){
         return NextResponse.json({ error: "Article ID is missing" }, { status: 400 });
     }
 
-    const article = await prisma.article.findUnique({ where: { articleId }, select: { author: true } });
+    const article = await prisma.article.findUnique({
+        where: { articleId },
+        select: { author: { select: { email: true } } }
+    });
     if (!article) {
         return NextResponse.json({ error: "Article not found" }, { status: 404 });
     }
