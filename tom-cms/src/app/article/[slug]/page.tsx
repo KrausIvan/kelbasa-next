@@ -1,7 +1,7 @@
 import React, { JSX } from "react";
 import { prisma } from "@/libs/prisma";
 import { ResolvingMetadata } from "next";
-import styles from "./page.module.css"; // Ujisti se, že cesta odpovídá tvé struktuře
+import styles from "./page.module.css";
 import { IconButton } from "@mui/material";
 import ArrowBackSharpIcon from '@mui/icons-material/ArrowBackSharp';
 import LoginSharpIcon from '@mui/icons-material/LoginSharp';
@@ -101,13 +101,13 @@ export default async function ArticlePage({
 
       <h3 className={styles.tagsHeading}>🏷️ Tags</h3>
       <ul className={styles.tagList}>
-        {article.tags.map((tagWrapper) => (
-          <li key={tagWrapper.tag.tagId} className={styles.tagItem}>
-            {tagWrapper.tag.name}
-          </li>
-        ))}
+          {article.tags.map((tagWrapper: { tag: { tagId: number; name: string } }) => (
+              <li key={tagWrapper.tag.tagId} className={styles.tagItem}>
+                  {tagWrapper.tag.name}
+              </li>
+          ))}
+
       </ul>
     </div>
   );
 }
-
