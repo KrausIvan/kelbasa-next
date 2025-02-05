@@ -1,0 +1,72 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  /* Glassmorphism efekt */
+  background: rgba(255, 255, 255, 0.1); /* poloprůhledná bílá */
+  border-radius: 12px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px); /* efekt rozostření */
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  overflow: hidden;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.7);
+}
+
+.imageContainer {
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Zaoblení horních rohů, pokud je obrázek připojen přímo k card */
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.content {
+  padding: 16px;
+}
+
+.title {
+  font-size: 1.75rem;
+  font-weight: bold;
+  color: #ffffff; /* světle bílý text */
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.title:hover {
+  color: #bb86fc; /* akcentní fialová */
+  text-decoration: underline;
+}
+
+.author {
+  font-size: 0.9rem;
+  color: #cccccc;
+  margin: 8px 0;
+}
+
+.description {
+  font-size: 1rem;
+  color: #e0e0e0;
+  margin-top: 8px;
+}
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+  font-size: 0.8rem;
+  color: #aaaaaa;
+}

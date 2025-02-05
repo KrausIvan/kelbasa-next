@@ -1,0 +1,87 @@
+.container {
+    background-color: #121212;
+    color: #e0e0e0;
+    padding: 2rem;
+    max-width: 800px;
+    margin: 2rem auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  }
+  
+  .title {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    color: #ffffff;
+  }
+  
+  .author {
+    font-size: 1rem;
+    margin-bottom: 0.3rem;
+    color: #bbbbbb;
+  }
+  
+  .publishedDate {
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    color: #888888;
+  }
+  
+  .metaInfo {
+    display: flex;
+    gap: 1.5rem;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+    color: #aaaaaa;
+  }
+  
+  .content {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+  }
+  
+  .tagsHeading {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    color: #ffffff;
+  }
+  
+  .tagList {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .tagItem {
+    background-color: #1e1e1e;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    color: #cccccc;
+  }
+  
+  .notFound {
+    text-align: center;
+    padding: 2rem;
+    color: #ff4444;
+  }
+
+  .navigation {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1800px;
+    margin: auto;
+    padding: 0;
+    color: #e0e0e0;
+    margin-bottom: 2rem;
+  }
+
+  .navigation a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 1.25rem;
+    font-weight: bold;
+    transition: color 0.2s ease-in-out;
+  }

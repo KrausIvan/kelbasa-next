@@ -1,0 +1,55 @@
+.container {
+    background-color: #121212;
+    color: #e0e0e0;
+    padding: 1.5rem;
+    min-height: 100vh;
+    position: relative;
+  }
+  
+  .heading {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    margin-top: 4.5rem;
+    text-align: center;
+  }
+  
+  .articleList {
+    list-style: none;
+    padding: 1em;
+    margin: 0;
+    display: grid;
+    grid-template-columns: minmax(auto, 500px);
+    justify-content: center;
+    gap: 1.5rem;
+  }
+  
+  .description {
+    font-size: 1.25rem;
+    margin-bottom: 3rem;
+    text-align: center;
+  }
+  
+  .navigation {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1800px;
+    margin: auto;
+    padding: 0;
+    color: #e0e0e0;
+  }
+
+  .navigation a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 1.25rem;
+    font-weight: bold;
+    transition: color 0.2s ease-in-out;
+  }
+
+  .searchForm {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 2rem;
+    gap: 1rem;
+  }

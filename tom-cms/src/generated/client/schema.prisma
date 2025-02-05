@@ -1,0 +1,79 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  userId    String    @id @default(cuid()) // Jedinečný identifikátor
+  name      String? // Jméno uživatele
+  email     String    @unique // E-mail (povinný pro přihlašování přes OAuth)
+  profile   Profile? // Profilové informace
+  createdAt DateTime  @default(now()) // Datum registrace
+  updatedAt DateTime  @updatedAt // Datum poslední aktualizace
+  articles  Article[] // Vazba na články, pokud uživatel píše obsah
+  tags      Tag[] // Vazba na tagy, které uživatel vytvořil
+  images    Image[] // Vazba na obrázky, které uživatel nahrál
+}
+
+model Profile {
+  profileId String  @id @default(cuid())
+  bio       String? // Krátký popis uživatele
+  gender    String? // Pohlaví uživatele
+  country   String? // Země, ve které uživatel žije
+  image     String? // URL na profilový obrázek (např. z GitHubu)
+  user      User    @relation(fields: [userEmail], references: [email])
+  userEmail String  @unique
+}
+
+model Article {
+  articleId String       @id @default(cuid())
+  title     String // Název článku
+  slug      String       @unique // URL adresa článku
+  content   String // Obsah článku
+  published Boolean      @default(false) // Zda je článek zveřejněný
+  authorId  String // ID autora (vazba na uživatele)
+  author    User         @relation(fields: [authorId], references: [userId])
+  tags      ArticleTag[] // Vazba na tagy přes pivot tabulku
+  images    Image[] // Vazba na obrázky, které patří k článku
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+}
+
+model Image {
+  imageId     String   @id @default(cuid())
+  url         String // URL obrázku
+  title       String? // Titulek k obrázku
+  description String? // Popis obrázku
+  userId      String // ID uživatele, který obrázek nahrál
+  user        User     @relation(fields: [userId], references: [userId])
+  articleId   String? // ID článku, ke kterému obrázek patří (volitelné)
+  article     Article? @relation(fields: [articleId], references: [articleId])
+  createdAt   DateTime @default(now())
+}
+
+model Tag {
+  tagId    String       @id @default(cuid())
+  name     String       @unique // Název tagu (např. "Technologie", "Umění")
+  userId   String // ID uživatele, který tag vytvořil
+  user     User         @relation(fields: [userId], references: [userId])
+  articles ArticleTag[] // Vazba na články přes pivot tabulku
+}
+
+model ArticleTag {
+  id        String  @id @default(cuid()) // ID pro pivot tabulku
+  articleId String // Vazba na článek
+  tagId     String // Vazba na tag
+  article   Article @relation(fields: [articleId], references: [articleId])
+  tag       Tag     @relation(fields: [tagId], references: [tagId])
+}
